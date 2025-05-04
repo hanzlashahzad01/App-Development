@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:bmi/icontextfile.dart';
 import 'package:bmi/container_file.dart';
 
+
 enum Gender {
   male,
   female,
@@ -105,19 +106,7 @@ class _InputPageState extends State<InputPage> {
               ),
             ),
           ),
-          Expanded(
-            child: Row(
-              children: [
-                Expanded(
-                  child: ReuseableContainer(
-                    colorr: kactiveColor,
-                    cardWidget: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          "Weight",
-                          style: kLabelStyle,
-                        ),
+
                         Text(
                           weight.toString(),
                           style: kNumberStyle,
