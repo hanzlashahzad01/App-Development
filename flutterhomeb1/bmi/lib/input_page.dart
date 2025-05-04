@@ -1,11 +1,4 @@
-import 'package:bmi_calculator_2022_updated/reultPage.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'reUseableCardWidgets.dart';
-import 'reuseContainerWidget.dart';
-import 'constantFile.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-
 enum Gender {
   male,
   female,
