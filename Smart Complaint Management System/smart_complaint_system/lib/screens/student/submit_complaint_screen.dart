@@ -55,6 +55,7 @@ class _SubmitComplaintScreenState extends State<SubmitComplaintScreen> {
           createdAt: DateTime.now(),
           updatedAt: DateTime.now(),
           comments: [],
+          priority: 'low',
         );
 
         await ComplaintService().submitComplaint(complaint);

@@ -20,13 +20,14 @@ class UserModel {
   });
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
+    print('User role from DB: ${json['role']}');
     return UserModel(
       id: json['id'] as String,
       name: json['full_name'] as String,
       email: json['email'] as String,
       role: UserRole.values.firstWhere(
-        (e) => e.toString().split('.').last == (json['role'] as String).toLowerCase(),
-        orElse: () => UserRole.student, // Default to student if role not found or null
+        (e) => e.toString().split('.').last.toLowerCase() == (json['role'] as String).toLowerCase(),
+        orElse: () => UserRole.student,
       ),
       department: json['department'] as String?,
       batch: json['batch'] as String?,

@@ -1,7 +1,7 @@
 class AppConfig {
   // Supabase Configuration
-  static const String supabaseUrl = 'YOUR_SUPABASE_URL';
-  static const String supabaseAnonKey = 'YOUR_SUPABASE_ANON_KEY';
+  static const String supabaseUrl = 'https://cfpzmtdpqnbqudtefzrb.supabase.co';
+  static const String supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNmcHptdGRwcW5icXVkdGVmenJiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDk5ODY4NjIsImV4cCI6MjA2NTU2Mjg2Mn0.oCtrYcRaeeHsTS7L49PNk-iq55h_gc1cLYVjl_paLbU';
 
   // App Configuration
   static const String appName = 'Smart Complaint System';

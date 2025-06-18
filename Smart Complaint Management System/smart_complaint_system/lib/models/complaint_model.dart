@@ -1,150 +1,87 @@
-import 'package:flutter/material.dart';
-
 enum ComplaintStatus {
   submitted,
   inProgress,
   escalatedToHod,
   resolved,
-  rejected,
-}
-
-enum ComplaintPriority {
-  low,
-  medium,
-  high,
+  rejected
 }
 
 class ComplaintModel {
   final String id;
-  final String studentId;
-  final String studentName;
   final String title;
   final String description;
-  final ComplaintStatus status;
-  final ComplaintPriority priority;
-  final DateTime createdAt;
-  final DateTime? updatedAt;
+  final String studentId;
+  final String studentName;
+  final String studentBatch;
   final String? imageUrl;
   final String? videoUrl;
+  final ComplaintStatus status;
+  final DateTime createdAt;
+  final DateTime updatedAt;
   final String? currentHandlerId;
   final String? currentHandlerName;
-  final String? currentHandlerRole;
-  final String? resolution;
-  final DateTime? resolvedAt;
   final List<ComplaintComment> comments;
+  final String priority;
 
   ComplaintModel({
     required this.id,
-    required this.studentId,
-    required this.studentName,
     required this.title,
     required this.description,
-    required this.status,
-    required this.priority,
-    required this.createdAt,
-    this.updatedAt,
+    required this.studentId,
+    required this.studentName,
+    required this.studentBatch,
     this.imageUrl,
     this.videoUrl,
+    required this.status,
+    required this.createdAt,
+    required this.updatedAt,
     this.currentHandlerId,
     this.currentHandlerName,
-    this.currentHandlerRole,
-    this.resolution,
-    this.resolvedAt,
     required this.comments,
+    required this.priority,
   });
 
   factory ComplaintModel.fromJson(Map<String, dynamic> json) {
     return ComplaintModel(
       id: json['id'] as String,
-      studentId: json['student_id'] as String,
-      studentName: json['student_name'] as String,
       title: json['title'] as String,
       description: json['description'] as String,
+      studentId: json['student_id'] as String,
+      studentName: json['student_name'] as String,
+      studentBatch: json['student_batch'] as String,
+      imageUrl: json['image_url'] as String?,
+      videoUrl: json['video_url'] as String?,
       status: ComplaintStatus.values.firstWhere(
         (e) => e.toString() == 'ComplaintStatus.${json['status']}',
       ),
-      priority: ComplaintPriority.values.firstWhere(
-        (e) => e.toString() == 'ComplaintPriority.${json['priority']}',
-      ),
       createdAt: DateTime.parse(json['created_at'] as String),
-      updatedAt: json['updated_at'] != null
-          ? DateTime.parse(json['updated_at'] as String)
-          : null,
-      imageUrl: json['image_url'] as String?,
-      videoUrl: json['video_url'] as String?,
+      updatedAt: DateTime.parse(json['updated_at'] as String),
       currentHandlerId: json['current_handler_id'] as String?,
       currentHandlerName: json['current_handler_name'] as String?,
-      currentHandlerRole: json['current_handler_role'] as String?,
-      resolution: json['resolution'] as String?,
-      resolvedAt: json['resolved_at'] != null
-          ? DateTime.parse(json['resolved_at'] as String)
-          : null,
-      comments: (json['comments'] as List<dynamic>)
+      comments: (json['comments'] as List<dynamic>? ?? [])
           .map((e) => ComplaintComment.fromJson(e as Map<String, dynamic>))
           .toList(),
+      priority: json['priority'] as String? ?? 'normal',
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
-      'id': id,
-      'student_id': studentId,
-      'student_name': studentName,
+      // 'id': id, // Removed for DB auto-generation
       'title': title,
       'description': description,
-      'status': status.toString().split('.').last,
-      'priority': priority.toString().split('.').last,
-      'created_at': createdAt.toIso8601String(),
-      'updated_at': updatedAt?.toIso8601String(),
+      'student_id': studentId,
+      'student_name': studentName,
+      'student_batch': studentBatch,
       'image_url': imageUrl,
       'video_url': videoUrl,
+      'status': status.toString().split('.').last,
+      'created_at': createdAt.toIso8601String(),
+      'updated_at': updatedAt.toIso8601String(),
       'current_handler_id': currentHandlerId,
       'current_handler_name': currentHandlerName,
-      'current_handler_role': currentHandlerRole,
-      'resolution': resolution,
-      'resolved_at': resolvedAt?.toIso8601String(),
-      'comments': comments.map((e) => e.toJson()).toList(),
+      'priority': priority,
     };
-  }
-
-  ComplaintModel copyWith({
-    String? id,
-    String? studentId,
-    String? studentName,
-    String? title,
-    String? description,
-    ComplaintStatus? status,
-    ComplaintPriority? priority,
-    DateTime? createdAt,
-    DateTime? updatedAt,
-    String? imageUrl,
-    String? videoUrl,
-    String? currentHandlerId,
-    String? currentHandlerName,
-    String? currentHandlerRole,
-    String? resolution,
-    DateTime? resolvedAt,
-    List<ComplaintComment>? comments,
-  }) {
-    return ComplaintModel(
-      id: id ?? this.id,
-      studentId: studentId ?? this.studentId,
-      studentName: studentName ?? this.studentName,
-      title: title ?? this.title,
-      description: description ?? this.description,
-      status: status ?? this.status,
-      priority: priority ?? this.priority,
-      createdAt: createdAt ?? this.createdAt,
-      updatedAt: updatedAt ?? this.updatedAt,
-      imageUrl: imageUrl ?? this.imageUrl,
-      videoUrl: videoUrl ?? this.videoUrl,
-      currentHandlerId: currentHandlerId ?? this.currentHandlerId,
-      currentHandlerName: currentHandlerName ?? this.currentHandlerName,
-      currentHandlerRole: currentHandlerRole ?? this.currentHandlerRole,
-      resolution: resolution ?? this.resolution,
-      resolvedAt: resolvedAt ?? this.resolvedAt,
-      comments: comments ?? this.comments,
-    );
   }
 }
 
@@ -178,7 +115,7 @@ class ComplaintComment {
 
   Map<String, dynamic> toJson() {
     return {
-      'id': id,
+      // 'id': id, // Removed for DB auto-generation
       'user_id': userId,
       'user_name': userName,
       'comment': comment,
