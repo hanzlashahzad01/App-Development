@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import '../../models/complaint_model.dart';
 import '../../providers/auth_provider.dart';
 import '../../services/complaint_service.dart';
+import '../auth/login_screen.dart';
 
 class AdvisorDashboard extends StatefulWidget {
   const AdvisorDashboard({super.key});
@@ -53,21 +54,77 @@ class _AdvisorDashboardState extends State<AdvisorDashboard> {
     _fetchComplaints();
   }
 
-  Future<void> _forwardToHod(ComplaintModel complaint) async {
-    // For demo, just clear handler (in real, set HOD's id/name)
+  Future<void> _rejectComplaint(ComplaintModel complaint) async {
+    final user = Provider.of<AuthProvider>(context, listen: false).currentUser!;
     await ComplaintService().updateComplaintStatus(
       complaint.id,
-      ComplaintStatus.escalatedToHod,
-      null,
-      null,
+      ComplaintStatus.rejected,
+      user.id,
+      user.name,
     );
+    _fetchComplaints();
+  }
+
+  Future<void> _forwardToHod(ComplaintModel complaint) async {
+    print('Forwarding complaint to HOD: ${complaint.id}');
+    try {
+      await ComplaintService().updateComplaintStatus(
+        complaint.id,
+        ComplaintStatus.escalatedToHod,
+        null,
+        null,
+      );
+      print('Forwarded!');
+    } catch (e) {
+      print('Error forwarding to HOD: $e');
+    }
     _fetchComplaints();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Batch Advisor Dashboard')),
+      appBar: AppBar(
+        title: const Text('Batch Advisor Dashboard'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.logout),
+            onPressed: () {
+              showDialog(
+                context: context,
+                builder: (context) => AlertDialog(
+                  title: const Text('Logout'),
+                  content: const Text('Are you sure you want to logout?'),
+                  actions: [
+                    TextButton(
+                      onPressed: () => Navigator.pop(context),
+                      child: const Text('Cancel'),
+                    ),
+                    TextButton(
+                      onPressed: () async {
+                        Navigator.pop(context);
+                        final authProvider = Provider.of<AuthProvider>(
+                          context,
+                          listen: false,
+                        );
+                        await authProvider.signOut();
+                        if (context.mounted) {
+                          Navigator.of(context).pushReplacement(
+                            MaterialPageRoute(
+                              builder: (context) => const LoginScreen(),
+                            ),
+                          );
+                        }
+                      },
+                      child: const Text('Logout'),
+                    ),
+                  ],
+                ),
+              );
+            },
+          ),
+        ],
+      ),
       body: _loading
           ? const Center(child: CircularProgressIndicator())
           : _complaints.isEmpty
@@ -84,6 +141,7 @@ class _AdvisorDashboardState extends State<AdvisorDashboard> {
                         subtitle: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
+                            Text('Description: ${c.description}'),
                             Text('Status: ${c.status.toString().split('.').last}'),
                             Text('Date: ${c.createdAt.toLocal().toString().split(".")[0]}'),
                           ],
@@ -92,17 +150,27 @@ class _AdvisorDashboardState extends State<AdvisorDashboard> {
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             ElevatedButton(
-                              onPressed: c.status == ComplaintStatus.resolved
+                              onPressed: c.status == ComplaintStatus.resolved || c.status == ComplaintStatus.rejected
                                   ? null
                                   : () => _solveComplaint(c),
                               child: const Text('Solve'),
                             ),
                             const SizedBox(width: 8),
                             ElevatedButton(
-                              onPressed: c.status == ComplaintStatus.escalatedToHod || c.status == ComplaintStatus.resolved
+                              onPressed: c.status == ComplaintStatus.escalatedToHod || c.status == ComplaintStatus.resolved || c.status == ComplaintStatus.rejected
                                   ? null
                                   : () => _forwardToHod(c),
                               child: const Text('Forward to HOD'),
+                            ),
+                            const SizedBox(width: 8),
+                            ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.red,
+                              ),
+                              onPressed: c.status == ComplaintStatus.rejected || c.status == ComplaintStatus.resolved
+                                  ? null
+                                  : () => _rejectComplaint(c),
+                              child: const Text('Reject'),
                             ),
                           ],
                         ),

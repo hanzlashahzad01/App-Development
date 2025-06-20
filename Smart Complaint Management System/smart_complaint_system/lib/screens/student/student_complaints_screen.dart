@@ -69,9 +69,9 @@ class _StudentComplaintsScreenState extends State<StudentComplaintsScreen> {
       case ComplaintStatus.inProgress:
         return 'In Progress';
       case ComplaintStatus.escalatedToHod:
-        return 'Escalated to HOD';
+        return 'Forwarded to HOD';
       case ComplaintStatus.resolved:
-        return 'Resolved';
+        return 'Solved';
       case ComplaintStatus.rejected:
         return 'Rejected';
     }

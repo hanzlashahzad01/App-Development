@@ -17,10 +17,10 @@ class StudentProfileScreen extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('Name: 	${user.name}', style: const TextStyle(fontSize: 18)),
+          Text('Name:  ${user.name}', style: const TextStyle(fontSize: 18)),
           Text('Email: ${user.email}', style: const TextStyle(fontSize: 18)),
-          Text('Batch: ${user.batch ?? 'N/A'}', style: const TextStyle(fontSize: 18)),
-          Text('Role: ${user.role.toString().split('.').last}', style: const TextStyle(fontSize: 18)),
+          const SizedBox(height: 16),
+          Text('This is your profile. You can update your information and track your complaints from the dashboard.', style: const TextStyle(fontSize: 16)),
         ],
       ),
     );
