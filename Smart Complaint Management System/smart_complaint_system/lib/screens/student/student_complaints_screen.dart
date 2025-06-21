@@ -27,6 +27,7 @@ class _StudentComplaintsScreenState extends State<StudentComplaintsScreen> {
 
   Future<void> _loadComplaints() async {
     try {
+      if (!mounted) return;
       setState(() {
         _isLoading = true;
         _error = null;
@@ -35,11 +36,13 @@ class _StudentComplaintsScreenState extends State<StudentComplaintsScreen> {
       final user = Provider.of<AuthProvider>(context, listen: false).currentUser!;
       final complaints = await _complaintService.getStudentComplaints(user.id);
 
+      if (!mounted) return;
       setState(() {
         _complaints = complaints;
         _isLoading = false;
       });
     } catch (e) {
+      if (!mounted) return;
       setState(() {
         _error = e.toString();
         _isLoading = false;
@@ -216,9 +219,13 @@ class _StudentComplaintsScreenState extends State<StudentComplaintsScreen> {
                             color: AppTheme.textSecondaryColor,
                           ),
                           const SizedBox(width: 4),
-                          Text(
-                            'Handled by ${complaint.currentHandlerName}',
-                            style: AppTheme.captionStyle,
+                          Expanded(
+                            child: Text(
+                              'Handled by ${complaint.currentHandlerName}',
+                              style: AppTheme.captionStyle,
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 1,
+                            ),
                           ),
                         ],
                       ],

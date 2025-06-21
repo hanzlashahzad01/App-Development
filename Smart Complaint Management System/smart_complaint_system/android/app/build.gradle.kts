@@ -8,16 +8,33 @@ plugins {
 android {
     namespace = "com.csdepartment.smart_complaint_system"
     compileSdk = flutter.compileSdkVersion
-    ndkVersion = flutter.ndkVersion
+    ndkVersion = "27.0.12077973"
 
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+    android {
+        // ...baqi settings...
+        android {
+            // ...baqi settings...
+            compileOptions {
+                sourceCompatibility = JavaVersion.VERSION_11
+                targetCompatibility = JavaVersion.VERSION_11
+                isCoreLibraryDesugaringEnabled = true
+            }
+            kotlinOptions {
+                jvmTarget = "11"
+            }
+            ndkVersion = "27.0.12077973"
+        }
     }
 
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_11.toString()
+    dependencies {
+        // ...baqi dependencies...
+        dependencies {
+            // ...baqi dependencies...
+            coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.4")
+        }
     }
+
+
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).

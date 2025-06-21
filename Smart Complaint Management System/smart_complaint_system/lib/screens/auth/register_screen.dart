@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import '../../constants/app_theme.dart';
 import '../../providers/auth_provider.dart';
 import '../home/home_screen.dart';
+import 'package:smart_complaint_system/screens/auth/login_screen.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -41,7 +42,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       if (authProvider.error == null && authProvider.isAuthenticated) {
         if (mounted) {
           Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (context) => const HomeScreen()),
+            MaterialPageRoute(builder: (context) => const LoginScreen()),
           );
         }
       } else if (mounted) {
