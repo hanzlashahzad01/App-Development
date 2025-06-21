@@ -26,7 +26,7 @@ class _HodDashboardState extends State<HodDashboard> {
     // Fetch only complaints escalated to HOD
     final complaints = await ComplaintService().getAllComplaints();
     setState(() {
-      _complaints = complaints.where((c) => c.status == ComplaintStatus.escalatedToHod).toList();
+      _complaints = complaints.where((c) => c.status == ComplaintStatus.escalated_to_hod).toList();
       _loading = false;
     });
   }
@@ -49,6 +49,16 @@ class _HodDashboardState extends State<HodDashboard> {
       ComplaintStatus.rejected,
       user.id,
       user.name,
+    );
+    _fetchComplaints();
+  }
+
+  Future<void> _forwardToAdmin(ComplaintModel complaint) async {
+    await ComplaintService().updateComplaintStatus(
+      complaint.id,
+      ComplaintStatus.escalated_to_admin,
+      null,
+      null,
     );
     _fetchComplaints();
   }
@@ -136,6 +146,16 @@ class _HodDashboardState extends State<HodDashboard> {
                                   ? null
                                   : () => _rejectComplaint(c),
                               child: const Text('Reject'),
+                            ),
+                            const SizedBox(width: 8),
+                            ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.orange,
+                              ),
+                              onPressed: c.status == ComplaintStatus.resolved || c.status == ComplaintStatus.rejected || c.status == ComplaintStatus.escalated_to_admin
+                                  ? null
+                                  : () => _forwardToAdmin(c),
+                              child: const Text('Forward to Admin'),
                             ),
                           ],
                         ),

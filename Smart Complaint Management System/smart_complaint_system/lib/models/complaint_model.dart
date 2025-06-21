@@ -2,8 +2,8 @@ import '../../services/complaint_service.dart';
 
 enum ComplaintStatus {
   submitted,
-  inProgress,
-  escalatedToHod,
+  in_progress,
+  escalated_to_hod,
   resolved,
   rejected
 }
@@ -54,7 +54,7 @@ class ComplaintModel {
       imageUrl: json['image_url'] as String?,
       videoUrl: json['video_url'] as String?,
       status: ComplaintStatus.values.firstWhere(
-        (e) => e.toString() == 'ComplaintStatus.${json['status']}',
+        (e) => e.toString().split('.').last == (json['status'] as String),
       ),
       createdAt: DateTime.parse(json['created_at'] as String),
       updatedAt: DateTime.parse(json['updated_at'] as String),

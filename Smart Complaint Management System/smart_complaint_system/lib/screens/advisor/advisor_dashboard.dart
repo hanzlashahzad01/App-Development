@@ -70,7 +70,7 @@ class _AdvisorDashboardState extends State<AdvisorDashboard> {
     try {
       await ComplaintService().updateComplaintStatus(
         complaint.id,
-        ComplaintStatus.escalatedToHod,
+        ComplaintStatus.escalated_to_hod,
         null,
         null,
       );
@@ -157,7 +157,7 @@ class _AdvisorDashboardState extends State<AdvisorDashboard> {
                             ),
                             const SizedBox(width: 8),
                             ElevatedButton(
-                              onPressed: c.status == ComplaintStatus.escalatedToHod || c.status == ComplaintStatus.resolved || c.status == ComplaintStatus.rejected
+                              onPressed: c.status == ComplaintStatus.escalated_to_hod || c.status == ComplaintStatus.resolved || c.status == ComplaintStatus.rejected
                                   ? null
                                   : () => _forwardToHod(c),
                               child: const Text('Forward to HOD'),

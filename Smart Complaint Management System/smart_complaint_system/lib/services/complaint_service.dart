@@ -40,7 +40,7 @@ class ComplaintService {
         .from(AppConfig.complaintsTable)
         .select()
         .eq('department', department)
-        .eq('status', ComplaintStatus.escalatedToHod.toString().split('.').last)
+        .eq('status', ComplaintStatus.escalated_to_hod.toString().split('.').last)
         .order('created_at', ascending: false);
 
     return (response as List)
@@ -112,10 +112,10 @@ class ComplaintService {
           .where((c) => c.status == ComplaintStatus.submitted)
           .length,
       'inProgress': complaints
-          .where((c) => c.status == ComplaintStatus.inProgress)
+          .where((c) => c.status == ComplaintStatus.in_progress)
           .length,
       'escalated': complaints
-          .where((c) => c.status == ComplaintStatus.escalatedToHod)
+          .where((c) => c.status == ComplaintStatus.escalated_to_hod)
           .length,
       'resolved': complaints
           .where((c) => c.status == ComplaintStatus.resolved)

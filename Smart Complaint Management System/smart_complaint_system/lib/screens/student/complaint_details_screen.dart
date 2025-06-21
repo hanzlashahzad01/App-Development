@@ -284,9 +284,9 @@ class _ComplaintDetailsScreenState extends State<ComplaintDetailsScreen> {
     switch (status) {
       case ComplaintStatus.submitted:
         return Icons.send;
-      case ComplaintStatus.inProgress:
+      case ComplaintStatus.in_progress:
         return Icons.pending_actions;
-      case ComplaintStatus.escalatedToHod:
+      case ComplaintStatus.escalated_to_hod:
         return Icons.escalator_warning;
       case ComplaintStatus.resolved:
         return Icons.check_circle;
@@ -299,9 +299,9 @@ class _ComplaintDetailsScreenState extends State<ComplaintDetailsScreen> {
     switch (status) {
       case ComplaintStatus.submitted:
         return AppTheme.primaryColor;
-      case ComplaintStatus.inProgress:
+      case ComplaintStatus.in_progress:
         return AppTheme.warningColor;
-      case ComplaintStatus.escalatedToHod:
+      case ComplaintStatus.escalated_to_hod:
         return AppTheme.accentColor;
       case ComplaintStatus.resolved:
         return AppTheme.successColor;
@@ -314,9 +314,9 @@ class _ComplaintDetailsScreenState extends State<ComplaintDetailsScreen> {
     switch (status) {
       case ComplaintStatus.submitted:
         return 'Submitted';
-      case ComplaintStatus.inProgress:
+      case ComplaintStatus.in_progress:
         return 'In Progress';
-      case ComplaintStatus.escalatedToHod:
+      case ComplaintStatus.escalated_to_hod:
         return 'Escalated to HOD';
       case ComplaintStatus.resolved:
         return 'Resolved';
